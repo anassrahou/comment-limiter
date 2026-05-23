@@ -1,11 +1,11 @@
-# Spanish translations for Comment Limiter.
+﻿# Spanish translations for Comment Limiter.
 # Copyright (C) 2024 Anass Rahou
 # This file is distributed under the same license as the Comment Limiter package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: comment-limiter 2.2.4\n"
+"Project-Id-Version: comment-limiter 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-01 00:00+0000\n"
 "PO-Revision-Date: 2024-01-01 00:00+0000\n"
@@ -33,19 +33,19 @@ msgstr "Guardar cambios de comentarios"
 
 #: includes/class-comment-limiter-settings.php:163
 msgid "Maximum Characters Number"
-msgstr "Número máximo de caracteres"
+msgstr "NÃºmero mÃ¡ximo de caracteres"
 
 #: includes/class-comment-limiter-settings.php:175
 msgid "Maximum Message Error"
-msgstr "Mensaje de error máximo"
+msgstr "Mensaje de error mÃ¡ximo"
 
 #: includes/class-comment-limiter-settings.php:187
 msgid "Minimum Characters Number"
-msgstr "Número mínimo de caracteres"
+msgstr "NÃºmero mÃ­nimo de caracteres"
 
 #: includes/class-comment-limiter-settings.php:199
 msgid "Minimum Message Error"
-msgstr "Mensaje de error mínimo"
+msgstr "Mensaje de error mÃ­nimo"
 
 #: includes/class-comment-limiter-settings.php:211
 msgid "Apply Settings to Admins"
@@ -53,15 +53,15 @@ msgstr "Aplicar ajustes a administradores"
 
 #: includes/class-comment-limiter-settings.php:235
 msgid "Invalid lengths. Please insert logical values."
-msgstr "Longitud no válida. Por favor inserta valores lógicos."
+msgstr "Longitud no vÃ¡lida. Por favor inserta valores lÃ³gicos."
 
 #: includes/class-comment-limiter-settings.php:242
 msgid "Maximum message error is required."
-msgstr "El mensaje de error máximo es obligatorio."
+msgstr "El mensaje de error mÃ¡ximo es obligatorio."
 
 #: includes/class-comment-limiter-settings.php:248
 msgid "Minimum message error is required."
-msgstr "El mensaje de error mínimo es obligatorio."
+msgstr "El mensaje de error mÃ­nimo es obligatorio."
 
 #: includes/class-comment-limiter-settings.php:255
 msgid "Comment Limiter settings saved correctly."
@@ -75,19 +75,19 @@ msgstr "Error Comment Limiter"
 #: includes/class-comment-limiter-settings.php:315
 #: includes/class-comment-limiter-settings.php:341
 msgid "Accepts only numbers"
-msgstr "Acepta números solamente"
+msgstr "Acepta nÃºmeros solamente"
 
 #: includes/class-comment-limiter-settings.php:328
 msgid "This is the error message that will be displayed to the user when the comment length is more than the maximum value indicated above."
-msgstr "Este es el mensaje de error que se mostrará al usuario cuando la longitud del comentario supere el valor máximo indicado arriba."
+msgstr "Este es el mensaje de error que se mostrarÃ¡ al usuario cuando la longitud del comentario supere el valor mÃ¡ximo indicado arriba."
 
 #: includes/class-comment-limiter-settings.php:354
 msgid "This is the error message that will be displayed to the user when the comment length is less than the minimum value indicated above."
-msgstr "Este es el mensaje de error que se mostrará al usuario cuando la longitud del comentario sea inferior al valor mínimo indicado arriba."
+msgstr "Este es el mensaje de error que se mostrarÃ¡ al usuario cuando la longitud del comentario sea inferior al valor mÃ­nimo indicado arriba."
 
 #: includes/class-comment-limiter-settings.php:368
 msgid "Yes"
-msgstr "Sí"
+msgstr "SÃ­"
 
 #: includes/class-comment-limiter-settings.php:369
 msgid "No"
@@ -95,15 +95,15 @@ msgstr "No"
 
 #: includes/class-comment-limiter-settings.php:374
 msgid "This will allows users with administrator capabilities to publish comments despite the configuration of Comment Limiter plugin."
-msgstr "Esto permitirá a usuarios con permisos de administrador publicar comentarios a pesar de la configuración del plugin Comment Limiter."
+msgstr "Esto permitirÃ¡ a usuarios con permisos de administrador publicar comentarios a pesar de la configuraciÃ³n del plugin Comment Limiter."
 
 #: includes/class-comment-limiter-settings.php:397
 msgid "Your comment is too short. Minimum words: "
-msgstr "Tu comentario es demasiado corto. Palabras mínimas: "
+msgstr "Tu comentario es demasiado corto. Palabras mÃ­nimas: "
 
 #: includes/class-comment-limiter-settings.php:398
 msgid "Your comment is too long. Maximum words: "
-msgstr "Tu comentario es demasiado largo. Palabras máximas: "
+msgstr "Tu comentario es demasiado largo. Palabras mÃ¡ximas: "
 
 #: includes/class-comment-limiter-settings.php:399
 msgid "Characters: %1$d of %2$d"
@@ -111,8 +111,8 @@ msgstr "Caracteres: %1$d de %2$d"
 
 #: includes/class-comment-limiter-settings.php:401
 msgid "Minimum %d characters required."
-msgstr "Mínimo %d caracteres requeridos."
+msgstr "MÃ­nimo %d caracteres requeridos."
 
 #: includes/class-comment-limiter-settings.php:402
 msgid "Maximum %d characters allowed."
-msgstr "Máximo %d caracteres permitidos."
+msgstr "MÃ¡ximo %d caracteres permitidos."

@@ -1,0 +1,44 @@
+.comment-limiter-counter {
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    background: #f6f7f7;
+    color: #1d2327;
+    font-size: 14px;
+}
+
+.comment-limiter-progress {
+    position: relative;
+    height: 8px;
+    margin-top: 5px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #dcdcde;
+}
+
+.comment-limiter-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #00a32a;
+    transition: width 0.3s ease, background-color 0.2s ease;
+}
+
+.comment-limiter-progress-bar.is-valid {
+    background: #00a32a;
+}
+
+.comment-limiter-progress-bar.is-invalid {
+    background: #d63638;
+}
+
+.comment-limiter-error {
+    display: none;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #d63638;
+    border-radius: 4px;
+    background: #fcf0f1;
+    color: #b32d2e;
+    font-size: 14px;
+}

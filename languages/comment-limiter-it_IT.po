@@ -1,11 +1,11 @@
-# Italian translations for Comment Limiter.
+﻿# Italian translations for Comment Limiter.
 # Copyright (C) 2024 Anass Rahou
 # This file is distributed under the same license as the Comment Limiter package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: comment-limiter 2.2.4\n"
+"Project-Id-Version: comment-limiter 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-01 00:00+0000\n"
 "PO-Revision-Date: 2024-01-01 00:00+0000\n"
@@ -57,11 +57,11 @@ msgstr "Lunghezze non valide. Inserire valori logici."
 
 #: includes/class-comment-limiter-settings.php:242
 msgid "Maximum message error is required."
-msgstr "Il messaggio di errore massimo è obbligatorio."
+msgstr "Il messaggio di errore massimo Ã¨ obbligatorio."
 
 #: includes/class-comment-limiter-settings.php:248
 msgid "Minimum message error is required."
-msgstr "Il messaggio di errore minimo è obbligatorio."
+msgstr "Il messaggio di errore minimo Ã¨ obbligatorio."
 
 #: includes/class-comment-limiter-settings.php:255
 msgid "Comment Limiter settings saved correctly."
@@ -79,15 +79,15 @@ msgstr "Accetta solo numeri"
 
 #: includes/class-comment-limiter-settings.php:328
 msgid "This is the error message that will be displayed to the user when the comment length is more than the maximum value indicated above."
-msgstr "Questo è il messaggio di errore che verrà visualizzato all'utente quando la lunghezza del commento supera il valore massimo indicato sopra."
+msgstr "Questo Ã¨ il messaggio di errore che verrÃ  visualizzato all'utente quando la lunghezza del commento supera il valore massimo indicato sopra."
 
 #: includes/class-comment-limiter-settings.php:354
 msgid "This is the error message that will be displayed to the user when the comment length is less than the minimum value indicated above."
-msgstr "Questo è il messaggio di errore che verrà visualizzato all'utente quando la lunghezza del commento è inferiore al valore minimo indicato sopra."
+msgstr "Questo Ã¨ il messaggio di errore che verrÃ  visualizzato all'utente quando la lunghezza del commento Ã¨ inferiore al valore minimo indicato sopra."
 
 #: includes/class-comment-limiter-settings.php:368
 msgid "Yes"
-msgstr "Sì"
+msgstr "SÃ¬"
 
 #: includes/class-comment-limiter-settings.php:369
 msgid "No"
@@ -95,15 +95,15 @@ msgstr "No"
 
 #: includes/class-comment-limiter-settings.php:374
 msgid "This will allows users with administrator capabilities to publish comments despite the configuration of Comment Limiter plugin."
-msgstr "Ciò consente agli utenti con privilegi di amministratore di pubblicare commenti nonostante la configurazione del plugin Comment Limiter."
+msgstr "CiÃ² consente agli utenti con privilegi di amministratore di pubblicare commenti nonostante la configurazione del plugin Comment Limiter."
 
 #: includes/class-comment-limiter-settings.php:397
 msgid "Your comment is too short. Minimum words: "
-msgstr "Il tuo commento è troppo corto. Numero minimo di parole: "
+msgstr "Il tuo commento Ã¨ troppo corto. Numero minimo di parole: "
 
 #: includes/class-comment-limiter-settings.php:398
 msgid "Your comment is too long. Maximum words: "
-msgstr "Il tuo commento è troppo lungo. Numero massimo di parole: "
+msgstr "Il tuo commento Ã¨ troppo lungo. Numero massimo di parole: "
 
 #: includes/class-comment-limiter-settings.php:399
 msgid "Characters: %1$d of %2$d"

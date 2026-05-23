@@ -1,9 +1,10 @@
 === Comment Limiter ===
 Contributors: ranss
 Tags: comment, length, limit, maximum, comment length, minimum comment, comment characters
-Requires at least: 4.0
+Requires at least: 6.0
 Tested up to: 6.6.2
-Stable tag: 2.2.4
+Requires PHP: 7.4
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +31,15 @@ Pull requests are welcome on [Github](https://github.com/ranss/comment-limiter).
 For questions, feature requests, and support concerning the Comment Limiter plugin, please refer to [Github](https://github.com/ranss/comment-limiter).
 
 == Changelog ==
+
+= 2.3.0 =
+
+* Improved fresh-install defaults.
+* Improved settings sanitization and validation.
+* Added multibyte-safe character counting.
+* Moved frontend counter styles into a stylesheet.
+* Fixed duplicated plugin action links and frontend duplicate error messages.
+* Updated plugin metadata.
 
 = 2.2.4 =
 

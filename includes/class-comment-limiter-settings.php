@@ -69,11 +69,10 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
             add_filter( 'preprocess_comment',    array( $this, 'comment_limiter_checker' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_styles' ) );
             
-            add_action('comment_form_after_fields', array($this, 'add_comment_progress_bar'));
             add_action('wp_enqueue_scripts',        array( $this, 'comment_limiter_localize_scripts') );
 
-            $this->_comment_limiter_options = get_option( 'comment_limiter_settings' );
             $this->_config = Comment_Limiter_Config::factory()->get();
+            $this->_comment_limiter_options = $this->_config;
         }
 
         /**
@@ -83,7 +82,9 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          * @return void
          */
         public function admin_enqueue_styles() {
-            if ( ! empty( $_GET['page'] ) && 'comment-limiter' === $_GET['page'] ) {
+            $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+            if ( 'comment-limiter' === $page ) {
                 wp_enqueue_style( 'cl-settings-css', plugins_url( '/assets/css/settings.css', dirname( __FILE__ ) ), array(), CL_VERSION, 'all' );
             }
         }
@@ -148,7 +149,11 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
             register_setting(
                 'comment_limiter_group',
                 'comment_limiter_settings',
-                array( $this, 'comment_limiter_sanitize' )
+                array(
+                    'type'              => 'array',
+                    'sanitize_callback' => array( $this, 'comment_limiter_sanitize' ),
+                    'default'           => Comment_Limiter_Config::factory()->get_defaults(),
+                )
             );
 
             add_settings_section(
@@ -229,9 +234,15 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          */
         public function comment_limiter_sanitize( $input ) {
 
-            $output = $this->_comment_limiter_options;
+            $defaults = Comment_Limiter_Config::factory()->get_defaults();
+            $existing = is_array( $this->_comment_limiter_options ) ? $this->_comment_limiter_options : $defaults;
+            $output   = wp_parse_args( $existing, $defaults );
+            $input    = is_array( $input ) ? wp_unslash( $input ) : array();
 
-            if ( $input['maximum_characters'] <= $input['minimum_characters'] ) {
+            $maximum_characters = isset( $input['maximum_characters'] ) ? absint( $input['maximum_characters'] ) : absint( $output['maximum_characters'] );
+            $minimum_characters = isset( $input['minimum_characters'] ) ? absint( $input['minimum_characters'] ) : absint( $output['minimum_characters'] );
+
+            if ( $maximum_characters <= $minimum_characters ) {
                 add_settings_error( 'comment-limiter-messages', 'invalid-values', __( 'Invalid lengths. Please insert logical values.', 'comment-limiter' ) );
                 return $output;
             }
@@ -248,9 +259,9 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
                 add_settings_error( 'comment-limiter-messages', 'empty-values', __( 'Minimum message error is required.', 'comment-limiter' ) );
             }
 
-            $output['maximum_characters'] = isset( $input['maximum_characters'] ) ? absint( $input['maximum_characters'] ) : $output['maximum_characters'];
-            $output['minimum_characters'] = isset( $input['minimum_characters'] ) ? absint( $input['minimum_characters'] ) : $output['minimum_characters'];
-            $output['enable_admin_feature'] = sanitize_text_field( $input['enable_admin_feature'] ?? $output['enable_admin_feature'] );
+            $output['maximum_characters'] = $maximum_characters;
+            $output['minimum_characters'] = $minimum_characters;
+            $output['enable_admin_feature'] = isset( $input['enable_admin_feature'] ) && 'yes' === $input['enable_admin_feature'] ? 'yes' : 'no';
 
             add_settings_error( 'comment-limiter-messages', 'success-message', __( 'Comment Limiter settings saved correctly.', 'comment-limiter' ), 'updated' );
 
@@ -265,8 +276,25 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          */
         public function comment_limiter_section_info() {
             ?>
-            <p class="description">In this section, you can configure and customize settings for the minimum and maximum number of words a comment should contain. You can also customize the error message associated with each option.</p>
+            <p class="description"><?php esc_html_e( 'Configure the minimum and maximum number of characters a comment should contain. You can also customize the error message for each limit.', 'comment-limiter' ); ?></p>
             <?php
+        }
+
+        /**
+         * Count comment characters in a multibyte-safe way.
+         *
+         * @since 2.3.0
+         * @param string $content Comment content.
+         * @return int
+         */
+        private function comment_limiter_character_count( $content ) {
+            $content = trim( wp_strip_all_tags( (string) $content ) );
+
+            if ( function_exists( 'mb_strlen' ) ) {
+                return mb_strlen( $content, get_bloginfo( 'charset' ) );
+            }
+
+            return strlen( $content );
         }
 
         /**
@@ -277,25 +305,30 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          * @return array
          */
         public function comment_limiter_checker( $commentdata ) {
+            $options = Comment_Limiter_Config::factory()->get();
 
-            if ( current_user_can( 'manage_options' ) && $this->_comment_limiter_options['enable_admin_feature'] === 'no' ) {
+            if ( current_user_can( 'manage_options' ) && 'no' === $options['enable_admin_feature'] ) {
                 return $commentdata;
             }
 
+            $comment_length = $this->comment_limiter_character_count( $commentdata['comment_content'] ?? '' );
+            $maximum        = absint( $options['maximum_characters'] );
+            $minimum        = absint( $options['minimum_characters'] );
+
             // If comment is long, then throw an error message
-            if ( strlen( $commentdata['comment_content'] ) > $this->_comment_limiter_options['maximum_characters'] ) {
+            if ( $comment_length > $maximum ) {
                 wp_die(
-                    sprintf( esc_html( $this->_comment_limiter_options['maximum_message'] ), ( strlen( $commentdata['comment_content'] ) - $this->_comment_limiter_options['maximum_characters'] ) ),
-                    __( 'Comment Limiter Error', 'comment-limiter' ),
+                    sprintf( esc_html( $options['maximum_message'] ), ( $comment_length - $maximum ) ),
+                    esc_html__( 'Comment Limiter Error', 'comment-limiter' ),
                     array( 'back_link' => true )
                 );
             }
 
             // If comment is short, then throw an error message
-            if ( strlen( $commentdata['comment_content'] ) < $this->_comment_limiter_options['minimum_characters'] ) {
+            if ( $comment_length < $minimum ) {
                 wp_die(
-                    sprintf( esc_html( $this->_comment_limiter_options['minimum_message'] ), ( $this->_comment_limiter_options['minimum_characters'] - strlen( $commentdata['comment_content'] ) ) ),
-                    __( 'Comment Limiter Error', 'comment-limiter' ),
+                    sprintf( esc_html( $options['minimum_message'] ), ( $minimum - $comment_length ) ),
+                    esc_html__( 'Comment Limiter Error', 'comment-limiter' ),
                     array( 'back_link' => true )
                 );
             }
@@ -324,7 +357,7 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          */
         public function maximum_message_callback() {
             ?>
-            <textarea rows="2" cols="50" name="comment_limiter_settings[maximum_message]" id="maximum_message"><?php echo esc_attr( $this->_config['maximum_message'] ); ?></textarea>
+            <textarea rows="2" cols="50" name="comment_limiter_settings[maximum_message]" id="maximum_message"><?php echo esc_textarea( $this->_config['maximum_message'] ); ?></textarea>
             <p class="description"><?php esc_html_e( 'This is the error message that will be displayed to the user when the comment length is more than the maximum value indicated above.', 'comment-limiter' ); ?></p>
             <?php
         }
@@ -350,7 +383,7 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          */
         public function minimum_message_callback() {
             ?>
-            <textarea rows="2" cols="50" name="comment_limiter_settings[minimum_message]" id="minimum_message"><?php echo esc_attr( $this->_config['minimum_message'] ); ?></textarea>
+            <textarea rows="2" cols="50" name="comment_limiter_settings[minimum_message]" id="minimum_message"><?php echo esc_textarea( $this->_config['minimum_message'] ); ?></textarea>
             <p class="description"><?php esc_html_e( 'This is the error message that will be displayed to the user when the comment length is less than the minimum value indicated above.', 'comment-limiter' ); ?></p>
             <?php
         }
@@ -387,24 +420,20 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
         
             if (is_single() && comments_open()) {
                 wp_enqueue_script('cl-script', plugins_url('/assets/js/word-counter.js', dirname(__FILE__)), array('jquery'), CL_VERSION, true);
+                wp_enqueue_style( 'cl-frontend-css', plugins_url( '/assets/css/frontend.css', dirname( __FILE__ ) ), array(), CL_VERSION, 'all' );
+
+                wp_localize_script('cl-script', 'cl_vars', array(
+                    'is_admin_user'      => esc_attr($is_admin_user),
+                    'enableAdminFeature' => $this->_config['enable_admin_feature'],
+                    'minChars'           => absint( $this->_config['minimum_characters'] ),
+                    'maxChars'           => absint( $this->_config['maximum_characters'] ),
+                    'minMessage'         => $this->_config['minimum_message'],
+                    'maxMessage'         => $this->_config['maximum_message'],
+                    'counterFormat'      => __('Characters: %1$d of %2$d', 'comment-limiter'),
+                    'minRequired'        => __('Minimum %d characters required.', 'comment-limiter'),
+                    'maxAllowed'         => __('Maximum %d characters allowed.', 'comment-limiter'),
+                ));
             }
-
-            wp_localize_script('cl-script', 'cl_vars', array(
-                'is_admin_user'      => esc_attr($is_admin_user),
-                'enableAdminFeature' => $this->_config['enable_admin_feature'],
-                'minChars'           => isset($this->_comment_limiter_options['minimum_characters']) ? $this->_comment_limiter_options['minimum_characters'] : 0,
-                'maxChars'           => isset($this->_comment_limiter_options['maximum_characters']) ? $this->_comment_limiter_options['maximum_characters'] : 0,
-                'minMessage'         => isset($this->_comment_limiter_options['minimum_message']) ? $this->_comment_limiter_options['minimum_message'] : __('Your comment is too short. Minimum words: ', 'comment-limiter') . $this->_comment_limiter_options['minimum_characters'],
-                'maxMessage'         => isset($this->_comment_limiter_options['maximum_message']) ? $this->_comment_limiter_options['maximum_message'] : __('Your comment is too long. Maximum words: ', 'comment-limiter') . $this->_comment_limiter_options['maximum_characters'],
-                'counterFormat'     => __('Characters: %1$d of %2$d', 'comment-limiter'),
-                'minRequired'       => __('Minimum %d characters required.', 'comment-limiter'),
-                'maxAllowed'        => __('Maximum %d characters allowed.', 'comment-limiter'),
-            ));
-        }
-
-        public function add_comment_progress_bar() {
-            ?>
-            <?php
         }
 
         /**

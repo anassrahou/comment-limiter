@@ -12,8 +12,8 @@ Pull requests are welcome on [Github](https://github.com/ranss/comment-limiter).
 ## Installation
 
 1. Install the plugin through your dashboard.
-2. Navigate to Comment Limiter menu.
-3. Insert your settings values.
+2. Navigate to Comments > Comment Limiter.
+3. Insert your settings values and save changes.
 3. Done.
 
 ## Support
@@ -21,6 +21,14 @@ Pull requests are welcome on [Github](https://github.com/ranss/comment-limiter).
 For questions, feature requests, and support concerning the Comment Limiter plugin, please refer to [Github](https://github.com/ranss/comment-limiter).
 
 ## Changelog
+
+#### 2.3.0
+* Improved fresh-install defaults.
+* Improved settings sanitization and validation.
+* Added multibyte-safe character counting.
+* Moved frontend counter styles into a stylesheet.
+* Fixed duplicated plugin action links and frontend duplicate error messages.
+* Updated plugin metadata.
 
 #### 2.1
 * Character counter on real-time

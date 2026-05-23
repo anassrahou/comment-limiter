@@ -15,39 +15,19 @@ jQuery(document).ready(function($) {
         // Create a new <div> element to display the character counter
         var counter = $("<div>", {
             id: "char-counter", // Set the ID for styling and reference
-            css: {
-                marginTop: "5px", // Space above the counter
-                fontSize: "14px",
-                color: "black",
-                backgroundColor: "#f0f8ff",
-                padding: "5px",
-                border: "1px solid gray",
-                borderRadius: "5px"
-            },
+            class: "comment-limiter-counter",
             text: cl_vars.counterFormat.replace('%1$d', 0).replace('%2$d', maxChars)
         });
 
         // Create the progress bar container with a fixed height and background color
         var progressBarContainer = $("<div>", {
-            css: {
-                position: "relative", // Allows absolute positioning of inner elements if needed
-                height: "8px",
-                backgroundColor: "#ddd",
-                borderRadius: "5px",
-                overflow: "hidden", // Hides any overflow from the inner progress bar
-                marginTop: "5px"
-            }
+            class: "comment-limiter-progress"
         });
         
         // Create the progress bar inside the container, initially empty
         var progressBar = $("<div>", {
             id: "char-progress-bar", // ID for reference and styling
-            css: {
-                height: "100%", // Fill the container's height
-                width: "0%", // Initial width of 0%, to be updated as the user types
-                backgroundColor: "#4caf50", // Initial green color, changes based on character count
-                transition: "width 0.3s ease" // Smooth transition effect when width changes
-            }
+            class: "comment-limiter-progress-bar"
         });
 
         // Append the counter and the progress bar container (with bar inside) to the page, right below the comment field
@@ -66,18 +46,18 @@ jQuery(document).ready(function($) {
 
             // Adjust the progress bar color based on character count:
             if (charCount < minChars) {
-                progressBar.css("backgroundColor", "#ff6666"); // Red if below minimum
+                progressBar.removeClass("is-valid").addClass("is-invalid");
             } else if (charCount >= minChars && charCount <= maxChars) {
-                progressBar.css("backgroundColor", "#4caf50"); // Green if within limits
+                progressBar.removeClass("is-invalid").addClass("is-valid");
             } else {
-                progressBar.css("backgroundColor", "#ff6666"); // Red if above maximum
+                progressBar.removeClass("is-valid").addClass("is-invalid");
             }
         });
 
         // Event listener for the submit button click
         submitButton.on("click", function(event) {
             var charCount = commentField.val().length; // Get the current character count
-            $("#error-msg").remove(); // Remove any previous error message to prevent duplicates
+            $(".comment-limiter-error").remove(); // Remove any previous error message to prevent duplicates
 
             // Check if the character count is below the minimum
             if (charCount < minChars) {
@@ -86,17 +66,8 @@ jQuery(document).ready(function($) {
                 // Create an error message for minimum character requirement
                 var errorMin = $("<div>", {
                     id: "error-msg1",
+                    class: "comment-limiter-error",
                     text: cl_vars.minRequired.replace('%d', minChars),
-                    css: { 
-                        padding: "5px",
-                        backgroundColor: "#ffe6e6", // Light red background for visibility
-                        color: "red", 
-                        marginTop: "5px",
-                        display: "none", // Initially hidden
-                        fontSize: "14px",
-                        border: "1px solid red",
-                        borderRadius: "5px"
-                    }
                 });
 
                 // Hide the counter, show error message, then revert after 3 seconds
@@ -119,17 +90,8 @@ jQuery(document).ready(function($) {
                 // Create an error message for maximum character limit
                 var errorMax = $("<div>", {
                     id: "error-msg2",
+                    class: "comment-limiter-error",
                     text: cl_vars.maxAllowed.replace('%d', maxChars),
-                    css: { 
-                        padding: "5px",
-                        backgroundColor: "#ffe6e6",
-                        color: "red", 
-                        marginTop: "5px",
-                        display: "none", // Initially hidden
-                        fontSize: "14px",
-                        border: "1px solid red",
-                        borderRadius: "5px"
-                    }
                 });
 
                 // Hide the counter, show error message, then revert after 3 seconds
