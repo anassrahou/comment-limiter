@@ -2,8 +2,8 @@
 Contributors: ranss
 Tags: comments, limiter, moderation, spam, validation
 Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 3.0.0
+Tested up to: 7.0
+Stable tag: 2.3.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -40,11 +40,8 @@ Yes. The plugin is designed to work with the standard WordPress comment system.
 
 == Changelog ==
 
-= 3.0.0 =
-* Updated readme metadata to follow WordPress.org requirements.
-* Added a short description for the plugin directory listing.
-* Reduced plugin tags to the WordPress.org recommended limit.
-* Prepared the plugin for future improvements and new features.
+= 2.3.1 =
+Change compatible version
 
 = 2.3.0 =
 * Previous release.
