@@ -3,7 +3,7 @@ Contributors: ranss
 Tags: comments, limiter, moderation, spam, validation
 Requires at least: 5.0
 Tested up to: 7.0
-Stable tag: 2.3.6
+Stable tag: 2.4.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -39,6 +39,10 @@ No. Comment Limiter only checks new comments submitted after the plugin is activ
 Yes. The plugin is designed to work with the standard WordPress comment system.
 
 == Changelog ==
+
+= 2.4.0 =
+Improve counter and progress bar
+Minor fixes and improvements
 
 = 2.3.6 =
 Minor improvements and issues fixing

@@ -2,7 +2,7 @@
 /*
 Plugin Name: Comment Limiter
 Description: Limit the minimum and maximum number of characters allowed in post comments.
-Version:     2.3.6
+Version:     2.4.0
 Author:      Anass Rahou
 License:     GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 
 
 if( ! defined( 'CL_VERSION' ) ) {
-  define( 'CL_VERSION', '2.3.6' );
+  define( 'CL_VERSION', '2.4.0' );
 }
 
 if ( ! defined( 'CL_PLUGIN_PATH' ) ) {

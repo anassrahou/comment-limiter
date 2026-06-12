@@ -284,7 +284,6 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
             return $output;
         }
 
-
         /**
          * Section description
          *
@@ -293,7 +292,7 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
          */
         public function comment_limiter_section_info() {
             ?>
-            <p class="description"><?php esc_html_e( 'Configure the minimum and maximum number of characters a comment should contain. You can also customize the error message for each limit.', 'comment-limiter' ); ?></p>
+            <p class="description"><?php esc_html_e( 'Configure the minimum and maximum comment character limits and customize their error messages using {current}, {min}, and {max} to show counts dynamically.', 'comment-limiter' ); ?></p>
             <?php
         }
 
@@ -332,22 +331,27 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
             $maximum        = absint( $options['maximum_characters'] );
             $minimum        = absint( $options['minimum_characters'] );
 
-            // If comment is long, then throw an error message
+            // Define the replacement map for tokens
+            $placeholders = array(
+                '{min}'     => $minimum,
+                '{max}'     => $maximum,
+                '{current}' => $comment_length,
+            );
+
+            // If comment is too long
             if ( $comment_length > $maximum ) {
-                wp_die(
-                    sprintf( esc_html( $options['maximum_message'] ), ( $comment_length - $maximum ) ),
-                    esc_html__( 'Comment Limiter Error', 'comment-limiter' ),
-                    array( 'back_link' => true )
-                );
+                $error_message = str_replace( array_keys( $placeholders ), array_values( $placeholders ), $options['maximum_message'] );
+                
+                // Return WP_Error instead of wp_die() so the theme handles the display gracefully if JS is bypassed
+                return new WP_Error( 'comment_too_long', esc_html( $error_message ) );
             }
 
-            // If comment is short, then throw an error message
+            // If comment is too short
             if ( $comment_length < $minimum ) {
-                wp_die(
-                    sprintf( esc_html( $options['minimum_message'] ), ( $minimum - $comment_length ) ),
-                    esc_html__( 'Comment Limiter Error', 'comment-limiter' ),
-                    array( 'back_link' => true )
-                );
+                $error_message = str_replace( array_keys( $placeholders ), array_values( $placeholders ), $options['minimum_message'] );
+
+                // Return WP_Error instead of wp_die() so the theme handles the display gracefully if JS is bypassed
+                return new WP_Error( 'comment_too_short', esc_html( $error_message ) );
             }
 
             return $commentdata;
