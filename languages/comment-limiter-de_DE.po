@@ -29,7 +29,7 @@ msgstr "Comment Limiter"
 
 #: includes/class-comment-limiter-settings.php:133
 msgid "Save Comments Changes"
-msgstr "KommentarÃ¤nderungen speichern"
+msgstr "Kommentaränderungen speichern"
 
 #: includes/class-comment-limiter-settings.php:163
 msgid "Maximum Characters Number"
