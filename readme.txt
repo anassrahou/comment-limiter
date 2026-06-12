@@ -41,6 +41,7 @@ Yes. The plugin is designed to work with the standard WordPress comment system.
 == Changelog ==
 
 = 2.4.0 =
+Add placeholders' variables to manage dynamically settings values ```{min}```, ```{max}```, and ```{current}```
 Improve counter and progress bar
 Minor fixes and improvements
 
