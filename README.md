@@ -45,8 +45,6 @@ Fix JS counter to properly show the message warning below the comment form.
 #### 2.3.1
 * Change compatible version
 
-=======
->>>>>>> 797581573fa8bbb6089f60c9a0d128e3f4c09ce0
 #### 2.3.0
 * Improved fresh-install defaults.
 * Improved settings sanitization and validation.
