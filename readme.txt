@@ -1,6 +1,5 @@
 === Comment Limiter ===
 Contributors: ranss
-<<<<<<< HEAD
 Tags: comments, limiter, moderation, spam, validation
 Requires at least: 5.0
 Tested up to: 7.0
