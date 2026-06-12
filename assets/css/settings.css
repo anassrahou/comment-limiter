@@ -1,0 +1,57 @@
+.comment-limiter-form tr {
+    display: block;
+    margin-bottom: 20px;
+}
+
+#comment-limiter table {
+    width: 100%;
+}
+
+#comment-limiter span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#comment-limiter .description {
+	width: 50%;
+}
+
+#comment-limiter input {
+	width: 20%;
+}
+
+#comment-limiter textarea {
+	width: 50%;
+	padding: 5px;
+}
+
+#comment-limiter .description {
+    width: 60%;
+}
+
+#character-count {
+    color: #555; /* Default color */
+}
+
+
+
+#comment-container {
+    position: relative; /* Set the position for the parent container */
+}
+
+#progress-bar {
+    position: absolute;
+    top: 0; /* Adjust to position it inside the textarea */
+    left: 0;
+    height: 5px; /* Height of the progress bar */
+    background-color: green; /* Default color */
+    width: 0; /* Start width */
+    z-index: 1; /* Ensure it's above the textarea */
+    transition: width 0.3s ease; /* Smooth transition for width change */
+}
+
+#comment {
+    margin-top: 10px; /* Space for the progress bar */
+    z-index: 0; /* Ensure textarea is below the progress bar */
+    position: relative; /* For stacking context */
+}
