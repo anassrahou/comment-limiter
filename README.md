@@ -21,8 +21,9 @@ Pull requests are welcome on [Github](https://github.com/ranss/comment-limiter).
 For questions, feature requests, and support concerning the Comment Limiter plugin, please refer to [Github](https://github.com/ranss/comment-limiter).
 
 ## Changelog
+#### 2.3.6
+Minor improvements and issues fixing
 
-<<<<<<< HEAD
 #### 2.3.5
 Fix JS counter to properly show the message warning below the comment form.
 

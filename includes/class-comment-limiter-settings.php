@@ -225,7 +225,10 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
 
         }
 
-        /**
+
+
+
+/**
          * Sanitize and validate fields
          *
          * @since 1.0
@@ -239,26 +242,39 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
             $output   = wp_parse_args( $existing, $defaults );
             $input    = is_array( $input ) ? wp_unslash( $input ) : array();
 
+            // Track if we hit any errors during sanitization
+            $has_error = false;
+
             $maximum_characters = isset( $input['maximum_characters'] ) ? absint( $input['maximum_characters'] ) : absint( $output['maximum_characters'] );
             $minimum_characters = isset( $input['minimum_characters'] ) ? absint( $input['minimum_characters'] ) : absint( $output['minimum_characters'] );
 
             if ( $maximum_characters <= $minimum_characters ) {
                 add_settings_error( 'comment-limiter-messages', 'invalid-values', __( 'Invalid lengths. Please insert logical values.', 'comment-limiter' ) );
-                return $output;
+                return $output; // Return early on critical logic flaw
             }
 
-            if ( ! empty( $input['maximum_message'] ) ) {
+            // Check and clean Maximum Message
+            if ( ! empty( trim( $input['maximum_message'] ?? '' ) ) ) {
                 $output['maximum_message'] = sanitize_text_field( $input['maximum_message'] );
             } else {
                 add_settings_error( 'comment-limiter-messages', 'empty-values', __( 'Maximum message error is required.', 'comment-limiter' ) );
+                $has_error = true;
             }
 
-            if ( ! empty( $input['minimum_message'] ) ) {
+            // Check and clean Minimum Message
+            if ( ! empty( trim( $input['minimum_message'] ?? '' ) ) ) {
                 $output['minimum_message'] = sanitize_text_field( $input['minimum_message'] );
             } else {
                 add_settings_error( 'comment-limiter-messages', 'empty-values', __( 'Minimum message error is required.', 'comment-limiter' ) );
+                $has_error = true;
             }
 
+            // If any errors were triggered above, return the previous clean working state data instead of saving empty strings
+            if ( $has_error ) {
+                return $output; 
+            }
+
+            // No errors found! Apply changes and proceed to save safely
             $output['maximum_characters'] = $maximum_characters;
             $output['minimum_characters'] = $minimum_characters;
             $output['enable_admin_feature'] = isset( $input['enable_admin_feature'] ) && 'yes' === $input['enable_admin_feature'] ? 'yes' : 'no';
@@ -267,6 +283,7 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
 
             return $output;
         }
+
 
         /**
          * Section description
@@ -430,8 +447,8 @@ if ( ! class_exists( 'Comment_Limiter_Settings' ) ) {
                     'minMessage'         => $this->_config['minimum_message'],
                     'maxMessage'         => $this->_config['maximum_message'],
                     'counterFormat'      => __('Characters: %1$d of %2$d', 'comment-limiter'),
-                    'minRequired'        => __('Minimum %d characters required.', 'comment-limiter'),
-                    'maxAllowed'         => __('Maximum %d characters allowed.', 'comment-limiter'),
+                    'minRequired'        => __( $this->_config['minimum_message'], 'comment-limiter'),
+                    'maxAllowed'         => __( $this->_config['maximum_message'], 'comment-limiter'),
                 ));
             }
         }
